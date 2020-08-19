@@ -2,8 +2,11 @@ const express = require('express');
 
 const app = express();
 const mongoose = require('mongoose');
+const path = require('path');
 const bodyParser = require('body-parser');
 const Todo = require('./models/todo');
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   bodyParser.urlencoded({
@@ -22,7 +25,7 @@ mongoose
 // Page d'acceuil de l'API
 // TODO : Documentation
 app.get('/', (req, res) => {
-  res.send('Home');
+  res.sendFile(path.join(`${__dirname}/views/index.html`));
 });
 
 // Récupérer la liste de toutes les tâches

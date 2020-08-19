@@ -1,0 +1,20 @@
+html,
+body {
+  margin: 0;
+  padding: O;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffe4a1;
+}
+
+.container > h1 {
+  font-size: 110px;
+  align-content: center;
+  font-family: 'Pangolin', cursive;
+}

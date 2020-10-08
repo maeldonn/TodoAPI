@@ -1,3 +1,17 @@
+const rateLimit = require('express-rate-limit');
+const slowDown = require('express-slow-down');
+
+const rateLimiter = () => rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 100,
+});
+
+const speedLimiter = () => slowDown({
+  windowMs: 10 * 60 * 1000,
+  delayAfter: 50,
+  delayMs: process.env.NODE_ENV === 'test' ? 0 : 200,
+});
+
 const notFound = (req, res, next) => {
   res.status(404);
   const error = new Error(`🔍 - Not Found - ${req.originalUrl}`);
@@ -16,6 +30,8 @@ const errorHandler = (err, req, res, next) => {
 };
 
 module.exports = {
+  rateLimiter,
+  speedLimiter,
   notFound,
   errorHandler,
 };

@@ -1,6 +1,7 @@
 const express = require('express');
 
 const controllers = require('./todos.controllers');
+const middlewares = require('./todos.middlewares');
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.get('/tocomplete', controllers.getNotCompletedTodos);
 router.get('/:id', controllers.getTodoById);
 
 // POST /api/v1/todos/
-router.post('/', controllers.createTodo);
+router.post('/', middlewares.validateSchema, controllers.createTodo);
 
 // PATCH /api/v1/todos/
 router.patch('/:id', controllers.editTodoById);

@@ -27,12 +27,6 @@ To run the API, open a terminal at the root project. To install all the dependen
 npm install
 ```
 
-or
-
-```sh
-yarn install
-```
-
 Then, run mongoDB.
 Now you can run the API by running the command :
 

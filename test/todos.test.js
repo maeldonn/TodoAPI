@@ -137,6 +137,30 @@ describe('PATCH /api/v1/todos/:id', () => {
     expect(response.body.message).to.equal('Please enter a valid id');
   });
 
+  it('should not allow a invalid title', async () => {
+    const response = await request(app)
+      .patch(`/api/v1/todos/${id}`)
+      .send({
+        title: '',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(422);
+    expect(response.body.message).to.equal('Invalid todo title');
+  });
+
+  it('should not allow a invalid completed field', async () => {
+    const response = await request(app)
+      .patch(`/api/v1/todos/${id}`)
+      .send({
+        completed: 'New task created',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(422);
+    expect(response.body.message).to.equal('Invalid completed field');
+  });
+
   it('should respond with the modified todo', async () => {
     const response = await request(app)
       .patch(`/api/v1/todos/${id}`)

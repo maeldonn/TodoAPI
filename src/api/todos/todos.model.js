@@ -1,13 +1,5 @@
-const mongoose = require('mongoose');
+const db = require('../../db/connect');
 
-const todoSchema = mongoose.Schema(
-  {
-    title: { type: String, required: true },
-    completed: { type: Boolean },
-  },
-  {
-    versionKey: false,
-  },
-);
+const todos = db.get('todos');
 
-module.exports = mongoose.model('todo', todoSchema);
+module.exports = todos;

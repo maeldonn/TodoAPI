@@ -1,8 +1,8 @@
-const Todo = require('./todos.model');
+const todos = require('./todos.model');
 
 const getTodos = async (req, res, next) => {
   try {
-    const todo = await Todo.find();
+    const todo = await todos.find({});
     res.json(todo);
   } catch (error) {
     next(error);
@@ -11,7 +11,7 @@ const getTodos = async (req, res, next) => {
 
 const getCompletedTodos = async (req, res, next) => {
   try {
-    const todo = await Todo.find({ completed: true });
+    const todo = await todos.find({ completed: true });
     res.json(todo);
   } catch (error) {
     next(error);
@@ -20,7 +20,7 @@ const getCompletedTodos = async (req, res, next) => {
 
 const getNotCompletedTodos = async (req, res, next) => {
   try {
-    const todo = await Todo.find({ completed: false });
+    const todo = await todos.find({ completed: false });
     res.json(todo);
   } catch (error) {
     next(error);
@@ -28,48 +28,59 @@ const getNotCompletedTodos = async (req, res, next) => {
 };
 
 const getTodoById = async (req, res, next) => {
-  const { id } = req.params;
+  const { id: _id } = req.params;
   try {
-    const todo = await Todo.findById(id);
+    const todo = await todos.findOne({ _id });
     res.json(todo);
   } catch (error) {
-    next(error.message.includes('ObjectId') ? new Error('Please enter a correct id') : error);
+    next(
+      error.message.includes('Argument')
+        ? new Error('Please enter a correct id')
+        : error,
+    );
   }
 };
 
 const createTodo = async (req, res, next) => {
   const { title, completed } = req.body;
-  const newTask = new Todo({
-    title,
-    completed: completed || false,
-  });
   try {
-    await newTask.save();
-    res.status(201).json(newTask);
+    const newTodo = await todos.insert({
+      title,
+      completed: completed || false,
+    });
+    res.status(201).json(newTodo);
   } catch (error) {
     next(error);
   }
 };
 
 const editTodoById = async (req, res, next) => {
-  const { id } = req.params;
+  const { id: _id } = req.params;
   const { title, completed } = req.body;
   try {
-    const todo = await Todo.findById(id);
-    if (title) todo.title = title;
-    if (completed !== undefined) todo.completed = completed;
-    await todo.save();
-    res.status(202).json(todo);
+    const todo = await todos.findOne({ _id });
+    if (todo) {
+      const updatedTodo = await todos.findOneAndUpdate(
+        { _id },
+        {
+          $set: {
+            title: title || todo.title,
+            completed: completed !== undefined ? completed : todo.completed,
+          },
+        },
+      );
+      res.status(202).json(updatedTodo);
+    }
   } catch (error) {
     next(error);
   }
 };
 
 const deleteTodoById = async (req, res, next) => {
-  const { id } = req.params;
+  const { id: _id } = req.params;
   try {
-    const del = await Todo.findByIdAndDelete(id);
-    res.status(202).json(del);
+    const del = await todos.remove({ _id });
+    res.status(202).json(del.result);
   } catch (error) {
     next(error);
   }
@@ -77,8 +88,8 @@ const deleteTodoById = async (req, res, next) => {
 
 const deleteTodos = async (req, res, next) => {
   try {
-    const del = await Todo.deleteMany({});
-    res.json(del);
+    const del = await todos.remove({});
+    res.status(202).json(del.result);
   } catch (error) {
     next(error);
   }

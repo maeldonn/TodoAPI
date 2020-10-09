@@ -1,5 +1,13 @@
 const todos = require('./todos.model');
 
+const invalidId = (next, error) => {
+  next(
+    error.message.includes('Argument')
+      ? new Error('Please enter a valid id')
+      : error,
+  );
+};
+
 const getTodos = async (req, res, next) => {
   try {
     const todo = await todos.find({});
@@ -33,11 +41,7 @@ const getTodoById = async (req, res, next) => {
     const todo = await todos.findOne({ _id });
     res.json(todo);
   } catch (error) {
-    next(
-      error.message.includes('Argument')
-        ? new Error('Please enter a correct id')
-        : error,
-    );
+    invalidId(next, error);
   }
 };
 
@@ -72,7 +76,7 @@ const editTodoById = async (req, res, next) => {
       res.status(202).json(updatedTodo);
     }
   } catch (error) {
-    next(error);
+    invalidId(next, error);
   }
 };
 
@@ -82,7 +86,7 @@ const deleteTodoById = async (req, res, next) => {
     const del = await todos.remove({ _id });
     res.status(202).json(del.result);
   } catch (error) {
-    next(error);
+    invalidId(next, error);
   }
 };
 

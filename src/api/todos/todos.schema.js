@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const schema = Joi.object({
+const postSchema = Joi.object({
   title: Joi.string()
     .trim()
     .min(3)
@@ -9,4 +9,15 @@ const schema = Joi.object({
   completed: Joi.boolean(),
 });
 
-module.exports = schema;
+const patchSchema = Joi.object({
+  title: Joi.string()
+    .trim()
+    .min(3)
+    .max(30),
+  completed: Joi.boolean(),
+});
+
+module.exports = {
+  postSchema,
+  patchSchema,
+};

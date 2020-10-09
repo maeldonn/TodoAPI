@@ -18,10 +18,10 @@ router.get('/tocomplete', controllers.getNotCompletedTodos);
 router.get('/:id', controllers.getTodoById);
 
 // POST /api/v1/todos/
-router.post('/', middlewares.validateSchema, controllers.createTodo);
+router.post('/', middlewares.validateSchema(true), controllers.createTodo);
 
 // PATCH /api/v1/todos/
-router.patch('/:id', controllers.editTodoById);
+router.patch('/:id', middlewares.validateSchema(), controllers.editTodoById);
 
 // DELETE /api/v1/todos/:id
 router.delete('/:id', controllers.deleteTodoById);

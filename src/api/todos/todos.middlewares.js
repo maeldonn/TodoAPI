@@ -1,7 +1,8 @@
 const schema = require('./todos.schema');
 
-const validateSchema = (req, res, next) => {
-  const value = schema.validate(req.body);
+const validateSchema = (isPostMethod = false) => (req, res, next) => {
+  const validationSchema = isPostMethod ? schema.postSchema : schema.patchSchema;
+  const value = validationSchema.validate(req.body);
   if (!value.error) {
     next();
   } else {

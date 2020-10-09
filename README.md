@@ -42,20 +42,20 @@ npm start
 
 ## Endpoints
 
-> Base URL for all endpoints `http://localhost:8080/
+> Base URL for all endpoints `http://localhost:5000/
 
-### /todo
+### /api/v1/todo
 
-`GET /todo`
+`GET /api/v1/todo`
 
 return the list of all the task.
 
-`GET /todo/:id`
+`GET /api/v1/todo/:id`
 
 return the task with the id in the url.
 return null if there is no task with this id.
 
-`POST /todo`
+`POST /api/v1/todo`
 
 create a new task.
 
@@ -66,7 +66,7 @@ create a new task.
 | title     | String  | ''      | The name of the task  |
 | completed | Boolean | false   | The state of the task |
 
-`PATCH /todo/:id`
+`PATCH /api/v1/todo/:id`
 
 Edit the task with the id in the url.
 
@@ -77,23 +77,23 @@ Edit the task with the id in the url.
 | title     | String  | ''      | The name of the task  |
 | completed | Boolean | false   | The state of the task |
 
-`DELETE /todo`
+`DELETE /api/v1/todo`
 
 delete all the tasks of the todo list.
 
-`DELETE /todo/:id`
+`DELETE /api/v1/todo/:id`
 
 delete the task with the id in the url.
 
-### /todo/completed
+### /api/v1/todo/completed
 
-`GET /todo/completed`
+`GET /api/v1/todo/completed`
 
 return the list of all the tasks where `"completed": true`.
 
-### todo/tocomplete
+### /api/v1/todo/tocomplete
 
-`GET /todo/tocomplete`
+`GET /api/v1/todo/tocomplete`
 
 return the list of all the tasks where `"completed": false`.
 

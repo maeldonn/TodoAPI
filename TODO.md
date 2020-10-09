@@ -1,3 +1,0 @@
-* [ ] Tests
-* [ ] Monk
-* [ ] README
